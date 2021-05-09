@@ -37,3 +37,29 @@ class DB
         return self::$_instance;
     }
 }
+
+public function action ($action, $table, $where = array()){
+    // 3 for 'OPERATOR' 'VALUE' 'NAME' (for ex. 1get 'user' 2= '3John')
+    if (count($where)===3){
+    $operators = array('=', '>', '<', '=<', '>=');
+
+    $field= where [0];
+    $operator= where [1];
+    $value= where [2];
+}
+}
+
+public function get ($table, $where) {
+return $this->action('SELECT*', $table, $where);
+}
+
+public function delete ($table, $where){ 
+return $this -> action('DELETE', $table, $where);
+}
+
+public function error (){
+   return $this -> error; 
+}
+public function count (){
+return $this ->count;
+}
