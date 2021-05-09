@@ -23,7 +23,6 @@ class DB
                 config::get('mysql/username'),
                 config::get('mysql/password')
             );
-            
         } catch (PDOException $e) {
             die($e->getMessage());
         }
@@ -36,30 +35,66 @@ class DB
         }
         return self::$_instance;
     }
-}
 
-public function action ($action, $table, $where = array()){
-    // 3 for 'OPERATOR' 'VALUE' 'NAME' (for ex. 1get 'user' 2= '3John')
-    if (count($where)===3){
-    $operators = array('=', '>', '<', '=<', '>=');
+/*
+    //against sql injections
+    public function query($sql, $params=array())
+    {
+        $this->_error=false;
+        if (£this->$query=$this->_pdo-prepare($sql)) {
+            $x=1;
+            if (count($params)) {
+                foreach ($params as $param) {
+                    $this->_query->bindValue($x, $param);
+                    $x++;
+                }
+            }
+            if ($this->_query->execute()) {
+                $this->results = $this->_query->fetchAll(PDO::FETCH_OBJ);
+                $this->count = $this ->_query->rowCount();
+            } else {
+                $this->_error=true;
+            }
+        }
+        return $this;
+    }
 
-    $field= where [0];
-    $operator= where [1];
-    $value= where [2];
-}
-}
+*/
+    public function action($action, $table, $where = array())
+    {
+        // 3 for 'field' 'operator' 'value' (for ex. 1get 'user' 2= '3John')
+        if (count($where)===3) {
+            $operators = array('=', '>', '<', '=<', '>=');
 
-public function get ($table, $where) {
-return $this->action('SELECT*', $table, $where);
-}
+            $field= where [0];
+            $operator= where [1];
+            $value= where [2];
+        }
+    }
 
-public function delete ($table, $where){ 
-return $this -> action('DELETE', $table, $where);
-}
+    public function get($table, $where)
+    {
+        return $this->action('SELECT*', $table, $where);
+    }
 
-public function error (){
-   return $this -> error; 
-}
-public function count (){
-return $this ->count;
+    public function delete($table, $where)
+    {
+        return $this -> action('DELETE', $table, $where);
+    }
+
+    public function results(){
+        return $this->_results;
+    }
+    // for return the first result
+     public function first(){
+        return $this ->results()[0];
+    }
+    public function error()
+    {
+        return $this -> error;
+    }
+    public function count()
+    {
+        return $this ->count;
+    }
 }
