@@ -16,6 +16,7 @@ class Config
             }
             return $config;
         }
-    return false;
+        // if we don't have anything it will return false
+        return false;
     }
 }
