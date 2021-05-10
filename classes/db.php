@@ -89,6 +89,46 @@ class DB
      public function first(){
         return $this ->results()[0];
     }
+    //insert data
+    public function insert($table, $fields=array()){
+    if(count($fields)){
+        $keys=array_keys($fields);
+        $values= '';
+        $x = 1;
+        
+        //building $fields
+        foreach($fields as $field){
+            $values .= '?';
+            if($x<count($fields)){
+                $values.=', ';
+            
+            }
+            $x++;
+        }
+        $sql = "INSERT INTO users(`" .implode('`, `',$keys) . "`) VALUES ({$values})"; 
+    }    
+    } 
+    //update data
+    public function update($table, $id, $fields){
+        $set= '';
+        $x=1;
+    
+        //building fields
+        foreach ($fields as $name => $value) {
+            $set .= "{$name} = ?";
+            if ($x < count($fields)) {
+                $set.=',';
+            }
+            $x++;
+        }
+   
+    $sql = "UPDATE {$table} SET {$set} password='newpassword' WHERE id = {$id}";
+    if (!$this->query($sql, $fields)->error()) {
+        return true;
+    }
+ return false;
+}
+    
     public function error()
     {
         return $this -> error;
